@@ -35,6 +35,7 @@ namespace Algorytm8
                         {
                             correct = false;
                         }
+                        else correct = true;
                     }
                 }
 

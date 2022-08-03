@@ -10,11 +10,13 @@ namespace Algorytm8
     {
         public List<char> SpecialAtMiddle { get; set; } = new List<char>() { ':', ',', ';' };
         public List<char> SpecialAtEnd { get; set; } = new List<char>() { '?', '!', '.' };
+        public List<char> PolishSymbolsBig { get; set; } = new List<char>() { 'Ć', 'Ł', 'Ó', 'Ś', 'Ż', 'Ź' };
+        public List<char> PolishSymbolsSmall { get; set; } = new List<char>() { 'ą', 'ę', 'ł', 'ć', 'ń', 'ó', 'ś', 'ż', 'ź' };
         public bool IsBeginningCorrect(string beginning)
         {
-            if(65 <= (int)beginning[0] && (int)beginning[0] <= 90)
+            if(65 <= (int)beginning[0] && (int)beginning[0] <= 90 || PolishSymbolsBig.Contains(beginning[0]))
             {
-                if(97 <= (int)beginning[1] && (int)beginning[1] <= 122 || (int)beginning[1] == 127)
+                if(97 <= (int)beginning[1] && (int)beginning[1] <= 122 || PolishSymbolsSmall.Contains(beginning[1]) || (int)beginning[1] == 32)
                 {
                     return true;
                 }
@@ -26,7 +28,8 @@ namespace Algorytm8
         public bool IsWordCorrect(string word, bool atMiddle)
         {
             if (65 <= (int)word[0] && (int)word[0] <= 90 || 
-                97 <= (int)word[0] && (int)word[0] <= 122)
+                97 <= (int)word[0] && (int)word[0] <= 122 || PolishSymbolsBig.Contains(word[0])
+                || PolishSymbolsSmall.Contains(word[0]))
             {
                 for (int i = 1; i < word.Length; i++)
                 {
@@ -34,7 +37,7 @@ namespace Algorytm8
                     {
                         return IsSpecialCharInWordAtEndCorrect(word[i]);
                     }
-                    if (97 > (int)word[i] || (int)word[i] > 122)
+                    if ((97 > (int)word[i] || (int)word[i] > 122) && !PolishSymbolsSmall.Contains(word[i]))
                     {
                         if(i == word.Length - 1)
                         {
